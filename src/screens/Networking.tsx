@@ -7,41 +7,26 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import useGetMovies from "../hooks/useGetMovies";
 
 type NetworkingProps = {};
 
-type Movie = {
+export type Movie = {
   id: string;
   releaseYear: string;
   title: string;
 };
 
-type MovieData = {
+export type MovieData = {
   description: string;
   movies: Movie[];
   title: string;
 };
 
 const Networking = (props: NetworkingProps) => {
-  const [movieData, setMovieData] = useState<MovieData>({} as MovieData);
-  const [loading, setLoading] = useState(true);
+  const { movieData, loading } = useGetMovies();
 
-  const callApi = () => {
-    try {
-      setTimeout(async() =>{
-        const response = await fetch("https://reactnative.dev/movies.json");
-        const responseJson = await response.json();
-        setMovieData(responseJson);
-        setLoading(false);
-      }, 2000)
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-
-  useEffect(() => {
-    callApi();
-  }, []);
+  if(loading) return <ActivityIndicator color='red' />
 
   return (
     <View>

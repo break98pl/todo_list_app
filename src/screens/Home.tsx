@@ -3,6 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, StyleSheet, TextInput, TextInputProps } from "react-native";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { useGetStorage } from "../hooks/useGetStorage";
+import useGetMovies from "../hooks/useGetMovies";
 const Tab = createBottomTabNavigator();
 
 type Note = {
@@ -19,6 +21,8 @@ type HomeProps = {
 const Home = (props: HomeProps) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [inputNote, setInputNote] = useState<string>("");
+
+  const notesStorage = useGetStorage('notes', true)
 
   const noteIndexRef = useRef(-1)
 
@@ -86,13 +90,13 @@ const Home = (props: HomeProps) => {
     noteIndexRef.current = index;
   }
 
-  useEffect(() => {
-    handleGetNoteStorage();
-  }, []);
+  // useEffect(() => {
+  //   handleGetNoteStorage();
+  // }, []);
 
-  useEffect(() => {
-    handleSaveToStorage();
-  }, [notes]);
+  // useEffect(() => {
+  //   handleSaveToStorage();
+  // }, [notes]);
 
   return (
     <View>
